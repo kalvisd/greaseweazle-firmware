@@ -158,6 +158,12 @@ static void identify_board_config(void)
     gw_info.mcu_sram_kb = sram_kb;
 }
 
+static void mcu_pullup_init(uint16_t (*pu)[], const struct pin_mapping *pin)
+{
+   for (; pin->pin_id != 0; pin++)
+       (*pu)[pin->gpio_bank] &= ~(1u << pin->gpio_pin);
+}
+
 static void mcu_board_init(void)
 {
     uint16_t pu[] = {
@@ -165,18 +171,14 @@ static void mcu_board_init(void)
         [_B] = 0x0e27, /* PB0-2,5,9-11 */
         [_C] = 0xffff, /* PC0-15 */
     };
-    const struct pin_mapping *mpin;
-    const struct pin_mapping *upin;
 
     identify_board_config();
 
     /* MSEL pins: do not default these pins to pull-up mode. */
-    for (mpin = board_config->msel_pins; mpin->pin_id != 0; mpin++)
-        pu[mpin->gpio_bank] &= ~(1u << mpin->gpio_pin);
+    mcu_pullup_init(&pu, board_config->msel_pins);
 
     /* User pins: do not default these pins to pull-up mode. */
-    for (upin = board_config->user_pins; upin->pin_id != 0; upin++)
-        pu[upin->gpio_bank] &= ~(1u << upin->gpio_pin);
+    mcu_pullup_init(&pu, board_config->user_pins);
 
     /* Flippy TRK0_DISABLE output: Set inactive (LOW). */
     if (board_config->flippy) {
