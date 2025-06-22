@@ -73,6 +73,7 @@ enum {
     F1SM_basic = 0,
     F1SM_plus,
     F1SM_plus_unbuffered,
+    F1SM_floppyio2,
 };
 
 /*
