@@ -71,7 +71,8 @@ const static struct board_config _board_config[] = {
     [F1SM_floppyio2] = {
         .flippy    = FALSE,
         .user_pins = _user_pins_floppyio2,
-        .msel_pins = _msel_pins_floppyio2 },
+        .msel_pins = _msel_pins_floppyio2,
+        .msel_active_state = 1 },
 };
 
 /* Blink the activity LED to indicate fatal error. */

@@ -33,8 +33,8 @@ static struct {
 } pins;
 #define read_pin(pin) pins.pin
 #define write_pin(pin, level) ({                                        \
-    gpio_write_pin(gpio_##pin, pin_##pin, level ? O_TRUE : O_FALSE);    \
-    pins.pin = level; })
+            gpio_write_pin(gpio_##pin, pin_##pin, msel_state(level));   \
+            pins.pin = level; })
 
 static int bus_type = -1;
 static int unit_nr = -1;
@@ -177,6 +177,15 @@ static void op_delay_wait(unsigned int mask)
         cpu_relax();
 }
 
+static inline int msel_state(int state)
+{
+    return
+        (state == O_TRUE) == (board_config->msel_active_state == 0)
+        ? O_TRUE
+        : O_FALSE
+        ;
+}
+
 static void drive_deselect(void)
 {
     int pin = -1;
@@ -202,7 +211,7 @@ static void drive_deselect(void)
         break;
     }
 
-    rc = write_mapped_pin(board_config->msel_pins, pin, O_FALSE);
+    rc = write_mapped_pin(board_config->msel_pins, pin, msel_state(O_FALSE));
     ASSERT(rc == ACK_OKAY);
 
     unit_nr = -1;
@@ -239,7 +248,7 @@ static uint8_t drive_select(uint8_t nr)
         return ACK_NO_BUS;
     }
 
-    rc = write_mapped_pin(board_config->msel_pins, pin, O_TRUE);
+    rc = write_mapped_pin(board_config->msel_pins, pin, msel_state(O_TRUE));
     if (rc != ACK_OKAY)
         return ACK_BAD_UNIT;
 
@@ -278,7 +287,8 @@ static uint8_t drive_motor(uint8_t nr, bool_t on)
         return ACK_NO_BUS;
     }
 
-    rc = write_mapped_pin(board_config->msel_pins, pin, on ? O_TRUE : O_FALSE);
+    rc = write_mapped_pin(board_config->msel_pins, pin,
+                          msel_state(on ? O_TRUE : O_FALSE));
     if (rc != ACK_OKAY)
         return ACK_BAD_UNIT;
 
