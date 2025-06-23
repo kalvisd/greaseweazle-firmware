@@ -1603,11 +1603,13 @@ static void process_command(void)
     }
     case CMD_HEAD: {
         uint8_t head = u_buf[2];
+        uint8_t level;
         if ((len != 3) || (head > 1))
             goto bad_command;
-        if (read_pin(head) != head) {
+        level = (head == 1) ? O_TRUE : O_FALSE;
+        if (read_pin(head) != level) {
             op_delay_wait(DELAY_head);
-            write_pin(head, head);
+            write_pin(head, level);
             op_delay_async(DELAY_write, delay_params.pre_write);
         }
         break;
