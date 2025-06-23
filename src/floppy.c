@@ -545,7 +545,7 @@ static void index_set_hard_sector_detection(uint32_t hard_sector_ticks)
 static void floppy_flux_end(void)
 {
     /* Turn off write pins. */
-    if (read_pin(wgate)) {
+    if (read_pin(wgate) == O_TRUE) {
         write_pin(wgate, O_FALSE);
         configure_pin(wdata, GPO_bus);
         op_delay_async(DELAY_write | DELAY_seek | DELAY_head,
