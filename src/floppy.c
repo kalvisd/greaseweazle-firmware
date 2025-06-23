@@ -399,14 +399,14 @@ static void step_dir_set(bool_t assert)
     write_pin(dir, assert);
     delay_us(10);
 }
-#define step_dir_out() step_dir_set(FALSE)
-#define step_dir_in() step_dir_set(TRUE)
+#define step_dir_out() step_dir_set(O_FALSE)
+#define step_dir_in() step_dir_set(O_TRUE)
 
 static void step_once(void)
 {
-    write_pin(step, TRUE);
+    write_pin(step, O_TRUE);
     delay_us(15);
-    write_pin(step, FALSE);
+    write_pin(step, O_FALSE);
     delay_us(delay_params.step_delay);
 }
 
