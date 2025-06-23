@@ -546,7 +546,7 @@ static void floppy_flux_end(void)
 {
     /* Turn off write pins. */
     if (read_pin(wgate)) {
-        write_pin(wgate, FALSE);
+        write_pin(wgate, O_FALSE);
         configure_pin(wdata, GPO_bus);
         op_delay_async(DELAY_write | DELAY_seek | DELAY_head,
                        delay_params.post_write);
@@ -1235,7 +1235,7 @@ static void floppy_write_wait_index(void)
 
     /* Enable output. */
     configure_pin(wdata, AFO_bus);
-    write_pin(wgate, TRUE);
+    write_pin(wgate, O_TRUE);
 
     index.count = 0;
     floppy_state = ST_write_flux;
@@ -1327,7 +1327,7 @@ static uint8_t floppy_erase_prep(const struct gw_erase_flux *ef)
     if (get_wrprot() == LOW)
         return ACK_WRPROT;
 
-    write_pin(wgate, TRUE);
+    write_pin(wgate, O_TRUE);
 
     floppy_state = ST_erase_flux;
     flux_op.status = ACK_OKAY;
