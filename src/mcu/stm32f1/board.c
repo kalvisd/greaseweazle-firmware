@@ -26,6 +26,15 @@ const static struct pin_mapping _msel_pins_f1_plus[] = {
     {  0,  0,  0 }
 };
 
+const static struct pin_mapping _msel_pins_floppyio2[] = {
+    { 10, _B,  0 },          /* MOTOR A (IBMPC) / _DRIVE0 (SHUGART) */
+    { 12, _B,  1 },          /* DRIVE B (IBMPC) / _DRIVE1 (SHUGART) */
+    { 14, _B, 10 },          /* DRIVE A (IBMPC) / _DRIVE2 (SHUGART) */
+    {  6, _B,  9 },          /*                 / _DRIVE3 (SHUGART) */
+    { 16, _B, 11 },          /* MOTOR B (IBMPC) / MOTOR (SHUGART) */
+    {  0,  0,  0 }
+};
+
 const static struct pin_mapping _user_pins_std[] = {
     { 2, _B,  9, _OD },
     { 0,  0,  0, _OD } };
@@ -39,6 +48,12 @@ const static struct pin_mapping _user_pins_f1_plus_unbuffered[] = {
     { 4, _A,  3, _OD },
     { 6, _A,  1, _OD },
     { 0,  0,  0, _OD } };
+const static struct pin_mapping _user_pins_floppyio2[] = {
+    { 2, _B,  9, _PP },         /* density selection pin OR drive 3,
+                                 * selectable by a jumper.  (these
+                                 * functions probably need to be
+                                 * separated!) */
+    { 0,  0,  0, _PP } };
 
 const static struct board_config _board_config[] = {
     [F1SM_basic] = {
@@ -52,7 +67,11 @@ const static struct board_config _board_config[] = {
     [F1SM_plus_unbuffered] = {
         .flippy    = TRUE,
         .user_pins = _user_pins_f1_plus_unbuffered,
-        .msel_pins = _msel_pins_f1_plus }
+        .msel_pins = _msel_pins_f1_plus },
+    [F1SM_floppyio2] = {
+        .flippy    = FALSE,
+        .user_pins = _user_pins_floppyio2,
+        .msel_pins = _msel_pins_floppyio2 },
 };
 
 /* Blink the activity LED to indicate fatal error. */
