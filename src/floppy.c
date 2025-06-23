@@ -43,7 +43,7 @@ static struct unit {
     bool_t initialised;
     bool_t is_flippy;
     bool_t motor;
-} unit[3];
+} unit[4];
 
 static struct gw_delay delay_params;
 static const struct gw_delay factory_delay_params = {
@@ -264,7 +264,7 @@ static uint8_t drive_motor(uint8_t nr, bool_t on)
         }
         break;
     case BUS_SHUGART:
-        if (nr >= 3)
+        if (nr >= 4)
             return ACK_BAD_UNIT;
         /* All shugart units share one motor line. Alias them all to unit 0. */
         nr = 0;
@@ -305,7 +305,7 @@ static uint8_t drive_get_info(int nr, struct gw_drive_info *d)
             return ACK_BAD_UNIT;
         break;
     case BUS_SHUGART:
-        if (nr >= 3)
+        if (nr >= 4)
             return ACK_BAD_UNIT;
         break;
     default:
