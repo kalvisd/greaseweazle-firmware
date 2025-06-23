@@ -70,6 +70,7 @@ static void floppy_mcu_init(void)
 
     switch (gw_info.hw_submodel) {
     case F1SM_basic:
+    case F1SM_floppyio2:
         /* Determine whether input pins must be internally pulled down. */
         configure_pin(index, GPI_pull_down);
         delay_us(10);
