@@ -197,6 +197,7 @@ static void drive_deselect(void)
         case 0: pin = 10; break;
         case 1: pin = 12; break;
         case 2: pin = 14; break;
+        case 3: pin =  6; break;
         }
         break;
     }
@@ -230,6 +231,7 @@ static uint8_t drive_select(uint8_t nr)
         case 0: pin = 10; break;
         case 1: pin = 12; break;
         case 2: pin = 14; break;
+        case 3: pin =  6; break;
         default: return ACK_BAD_UNIT;
         }
         break;
