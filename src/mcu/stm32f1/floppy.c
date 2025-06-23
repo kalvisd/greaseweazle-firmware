@@ -23,20 +23,20 @@ static unsigned int GPI_bus;
 /* Input pins */
 #define gpio_index  gpiob
 #define pin_index   6 /* PB6 */
-#define gpio_trk0   gpiob
-#define pin_trk0    7 /* PB7 */
-#define gpio_wrprot gpiob
-#define pin_wrprot  8 /* PB8 */
+#define gpio_trk0   (gpio_from_id(core_floppy_pins->trk0.gpio_bank))
+#define pin_trk0    (core_floppy_pins->trk0.gpio_pin)
+#define gpio_wrprot (gpio_from_id(core_floppy_pins->wrprot.gpio_bank))
+#define pin_wrprot  (core_floppy_pins->wrprot.gpio_pin)
 
 /* Output pins. */
-#define gpio_dir   gpiob
-#define pin_dir    12 /* PB12 */
-#define gpio_step  gpiob
-#define pin_step   13 /* PB13 */
-#define gpio_wgate gpiob
-#define pin_wgate  14 /* PB14 */
-#define gpio_head  gpiob
-#define pin_head   15 /* PB15 */
+#define gpio_dir    (gpio_from_id(core_floppy_pins->dir.gpio_bank))
+#define pin_dir     (core_floppy_pins->dir.gpio_pin)
+#define gpio_step   (gpio_from_id(core_floppy_pins->step.gpio_bank))
+#define pin_step    (core_floppy_pins->step.gpio_pin)
+#define gpio_wgate  (gpio_from_id(core_floppy_pins->wgate.gpio_bank))
+#define pin_wgate   (core_floppy_pins->wgate.gpio_pin)
+#define gpio_head   (gpio_from_id(core_floppy_pins->head.gpio_bank))
+#define pin_head    (core_floppy_pins->head.gpio_pin)
 
 /* RDATA: Pin B3, Timer 2 Channel 2, DMA1 Channel 7. */
 #define gpio_rdata  gpiob

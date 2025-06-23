@@ -76,6 +76,27 @@ enum {
     F1SM_floppyio2,
 };
 
+/* Core floppy pin assignments, except for RDATA, WDATA and INDEX,
+   differ between the F1/F1plus and the FLOPPYIOv2.  Worse, not all
+   signals are on GPIOB!. */
+
+/* a cut down struct pin_mapping */
+struct core_floppy_pin {
+    const uint8_t gpio_bank;
+    const uint8_t gpio_pin;
+};
+
+struct core_floppy_pins {
+    struct core_floppy_pin trk0;
+    struct core_floppy_pin wrprot;
+    struct core_floppy_pin dir;
+    struct core_floppy_pin step;
+    struct core_floppy_pin wgate;
+    struct core_floppy_pin head;
+};
+
+extern const struct core_floppy_pins *core_floppy_pins;
+
 /*
  * Local variables:
  * mode: C

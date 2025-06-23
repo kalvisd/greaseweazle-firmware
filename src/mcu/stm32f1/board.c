@@ -12,6 +12,28 @@
 #define gpio_led gpioc
 #define pin_led 13
 
+/* F1 pin assignments */
+
+const static struct core_floppy_pins _core_floppy_pins_f1 = {
+    .trk0   = { _B, 7 },     /* PB7 */
+    .wrprot = { _B, 8 },     /* PB8 */
+    .dir    = { _B, 12 },    /* PB12 */
+    .step   = { _B, 13 },    /* PB13 */
+    .wgate  = { _B, 14 },    /* PB14 */
+    .head   = { _B, 15 }     /* PB15 */
+};
+
+/* FloppyIO2 pin assignments */
+
+const static struct core_floppy_pins _core_floppy_pins_floppyio2 = {
+    .trk0   = { _B, 7 },     /* PB7 */
+    .wrprot = { _B, 15 },    /* PB15 */
+    .dir    = { _A, 15 },    /* PA15 */
+    .step   = { _B, 13 },    /* PB13 */
+    .wgate  = { _B, 12 },    /* PB12 */
+    .head   = { _B, 14 }     /* PB14 */
+};
+
 const static struct pin_mapping _msel_pins_std[] = {
     { 10, _B, 11 },
     { 14, _B, 10 },
@@ -74,6 +96,8 @@ const static struct board_config _board_config[] = {
         .msel_pins = _msel_pins_floppyio2,
         .msel_active_state = 1 },
 };
+
+const struct core_floppy_pins *core_floppy_pins;
 
 /* Blink the activity LED to indicate fatal error. */
 static void blink_fatal(int blinks)
@@ -165,6 +189,15 @@ static void mcu_board_init(void)
     case F1SM_plus_unbuffered:
         /* Floppy pin 34 input line is externally pulled up. */
         pu[_A] &= ~(1u << 8); /* PA8 */
+        break;
+    }
+
+    switch (gw_info.hw_submodel) {
+    case F1SM_floppyio2:
+        core_floppy_pins = &_core_floppy_pins_floppyio2;
+        break;
+    default:
+        core_floppy_pins = &_core_floppy_pins_f1;
         break;
     }
 
