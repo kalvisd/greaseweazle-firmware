@@ -26,10 +26,10 @@
 
 /* Track and modify states of output pins. */
 static struct {
-    bool_t dir;
-    bool_t step;
-    bool_t wgate;
-    bool_t head;
+    uint8_t dir;
+    uint8_t step;
+    uint8_t wgate;
+    uint8_t head;
 } pins;
 #define read_pin(pin) pins.pin
 #define write_pin(pin, level) ({                                        \
