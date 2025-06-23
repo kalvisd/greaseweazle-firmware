@@ -647,6 +647,8 @@ static void floppy_reset(void)
 
 void floppy_init(void)
 {
+    const struct pin_mapping *mpin;
+
     floppy_mcu_init();
 
     gw_info.fw_major = fw_major;
@@ -679,6 +681,18 @@ void floppy_init(void)
     delay_params = factory_delay_params;
 
     _set_bus_type(BUS_NONE);
+
+    /* Set SELECT/MOTOR pins to a known state */
+    for (mpin = board_config->msel_pins; mpin->pin_id != 0; mpin++) {
+        gpio_write_pin(gpio_from_id(mpin->gpio_bank), mpin->gpio_pin,
+                       msel_state(O_FALSE));
+    }
+    /* Set output pins to a known state */
+    gpio_write_pin(gpio_dir, pin_dir, msel_state(O_FALSE));
+    gpio_write_pin(gpio_step, pin_step, msel_state(O_FALSE));
+    gpio_write_pin(gpio_wgate, pin_wgate, msel_state(O_FALSE));
+    gpio_write_pin(gpio_head, pin_head, msel_state(O_FALSE));
+    gpio_write_pin(gpio_wdata, pin_wdata, msel_state(O_FALSE));
 }
 
 struct gw_info gw_info = {
