@@ -33,8 +33,8 @@ static struct {
 } pins;
 #define read_pin(pin) pins.pin
 #define write_pin(pin, level) ({                                        \
-            gpio_write_pin(gpio_##pin, pin_##pin, msel_state(level));   \
-            pins.pin = level; })
+            gpio_write_pin(gpio_##pin, pin_##pin, msel_state((level))); \
+            pins.pin = (level); })
 
 static int bus_type = -1;
 static int unit_nr = -1;
