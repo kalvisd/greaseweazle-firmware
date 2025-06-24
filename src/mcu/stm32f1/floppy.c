@@ -153,7 +153,10 @@ static void wdata_prep(void)
     tim_wdata->psc = TIM_PSC-1;
     tim_wdata->ccmr1 = (TIM_CCMR1_CC1S(TIM_CCS_OUTPUT) |
                         TIM_CCMR1_OC1M(TIM_OCM_PWM1));
-    tim_wdata->ccer = TIM_CCER_CC1E | ((O_TRUE==0) ? TIM_CCER_CC1P : 0);
+    tim_wdata->ccer = TIM_CCER_CC1E |
+        ((O_TRUE == 0) == (board_config->msel_active_state == 0)
+         ? TIM_CCER_CC1P
+         : 0);
     tim_wdata->ccr1 = sample_ns(400);
     tim_wdata->dier = TIM_DIER_UDE;
     tim_wdata->cr2 = 0;
